@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>水果商城</title>
+    {% include 'base_css.html' %}
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+<div class="container">
+    <div class="r1 row">
+        <span style="font-size: 40px">水果商城</span>
+        <div class="a1"><a href="order/shoucang" class="a">收藏夹</a>
+                        <a href="order/cart" class="a">购物车</a>
+              {{ msg|safe }}
+        </div>
+
+    </div>
+    <div class="r2 row">
+        <div class="c1 col-xs-9">
+            {% for i in pager.object_list %}
+                <div class="c11">
+                <img class="i" src="/static/{{ i.name_photo }}">
+                <p class="p1">￥{{ i.price }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销量：</p>
+                <p class="p2">{{ i.name }}</p>
+                    <div class="a21">
+                        <span class="sp1">产地：{{ i.source }}</span>
+                        <a class="a211">收藏</a>
+                        <a class="a212">加购</a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="c2 col-xs-3">
+            <div class="r23 row">
+                <ul>
+                    <li>总排行</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>3</li>
+                    <li>3</li>
+                </ul>
+            </div>
+            <div class="r24 row">
+                <ul>
+                    <li>新品推荐</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>3</li>
+                    <li>3</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="r3 row">
+     <div class="a4">
+         <a {% if pager.has_previous %}href="?page={{ pager.previous_page_number }}" {% endif %}><</a>
+         {% for p in paginator.page_range %}
+        {% if pager.number == p %}
+            <a class="page active"> {{ p }} </a>
+        {% else %}
+            <a class="page" href="?page={{ p }}"> {{ p }} </a>
+        {% endif %}
+
+    {% endfor %}
+         <a {% if pager.has_next %}href="?page={{ pager.next_page_number }}" {% endif %}>></a>
+
+     </div>
+    </div>
+</div>
+
+{% include 'base_js.html' %}
+<script>
+    function f(cls){
+        return document.getElementsByClassName(cls)
+    }
+    var p2 = f('p2')
+    var a211 = f('a211')
+    var a212 = f('a212')
+
+    $('.c11').one('mouseover', function () {
+        var index = $(this).index()
+
+        $(a211[index]).on('click', function () {
+            var name = $(p2[index]).html()
+            data = {
+                'name':[name]
+            }
+
+            fetch('http://127.0.0.1:8000/order/shoucang', {
+                method: 'POST',
+                headers: {
+                      'Content-Type': 'application/json'
+                      },
+                body: JSON.stringify(data)
+            }).then(resp=>resp.text())
+                .then(text=>{
+                    var data = JSON.parse(text)
+                    alert(data.data)
+                })
+            })
+
+
+        $(a212[index]).on('click', function () {
+            var name = $(p2[index]).html()
+            data = {
+                'name':[name]
+            }
+
+            fetch('http://127.0.0.1:8000/order/cart', {
+                method: 'POST',
+                headers: {
+                      'Content-Type': 'application/json'
+                      },
+                body: JSON.stringify(data)
+            }).then(resp=>resp.text())
+                .then(text=>{
+                    var data = JSON.parse(text)
+                    alert(data.data)
+                })
+            })
+        })
+
+
+</script>
+</body>
+</html>

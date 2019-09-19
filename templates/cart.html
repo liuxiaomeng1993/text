@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>购物车</title>
+    <link rel="stylesheet" href="/static/css/cart.css">
+    {% include 'base_css.html' %}
+</head>
+<body>
+<h3>{{ msg|safe }}</h3>
+<div class="container">
+    <div class="r row">
+        {% for i in f %}
+        <div class="info">
+            <img src="/static/{{ i.fruit.name_photo }}">
+            <div class="p ">商品名：<span class="pn">{{ i.fruit.name }}</span></div>
+            <div class="p price">价格：<span class="pr">{{ i.fruit.price }}</span></div>
+            <div class="p">产地：{{ i.fruit.source }}</div>
+            <div class="p">
+                <button class="b1">-</button>
+                <input class="i" value="{{ i.cnt }}">
+                <button class="b2">+</button>
+            </div>
+             <div class="p"><button class="b3">删除</button></div>
+              <p class="result p"></p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% include 'base_js.html' %}
+<script>
+    function bt(cls) {
+        return document.getElementsByClassName(cls)
+    }
+   var bt1 = bt('b1')
+   var bt2 = bt('b2')
+   var bt3 = bt('b3')
+   var price = bt('pr')
+   var pn = bt('pn')
+   var result = bt('result')
+
+     $('.info').one('mouseover', function () {
+         var index = $(this).index()
+
+         $(bt1[index]).on('click', function () {
+             let num = $(this).next().val()
+             num = parseInt(num)
+
+             let pric = parseFloat($(price[index]).html())
+
+             if (num > 1) {
+                $(this).next().val(num - 1)
+                  let total = pric * (num-1)
+                  $(result[index]).html('￥:' + total)
+
+             } else {
+                 alert('最小数量为1')
+             }
+
+
+         })
+
+         $(bt2[index]).on('click', function () {
+             let num = $(this).prev().val()
+             num = parseInt(num)
+              $(this).prev().val(num + 1)
+              let pric = parseFloat($(price[index]).html())
+             let total = pric * (num+1)
+             $(result[index]).html('￥:' + total)
+
+
+         })
+
+         $(bt3[index]).on('click', function () {
+             var name1 = $(bt3[index]).html()
+             var name2 = $(pn[index]).html()
+             var data = {
+                 name: [name1, name2]
+             }
+             fetch('http://127.0.0.1:8000/order/cart', {
+                 method: 'POST',
+                 headers: {
+                'Content-Type': 'application/json'
+            },
+                 body: JSON.stringify(data)
+             }).then(resp=>resp.text())
+                 .then(text=>{
+                     var data = JSON.parse(text)
+                    alert(data.data)
+                    window.location.reload()
+                 })
+
+         })
+
+     })
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

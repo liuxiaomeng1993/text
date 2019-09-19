@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>主页</title>
+    {% include 'base_css.html' %}
+</head>
+<body>
+{#  <h3>原数据：{{ msg }}</h3>#}
+{#  <h3>{{ msg|add:-5 }}</h3>#}
+{#  <h3>{% widthratio msg 2 1 %}</h3>#}
+{#  <h3>{% if msg|divisibleby:2 %}</h3>#}
+{#        1#}
+{#     {% endif %}#}
+{#  <h3>原数据：{{ str }}</h3>#}
+{#  <h3>{{ str|lower }}</h3>#}
+{#  <h3>{{ str|upper }}</h3>#}
+{#  <h3>{{ str|capfirst }}</h3>#}
+{#  <h3>{{ str|cut:'o' }}</h3>#}
+{#  <h3>{{ str|join:'-' }}</h3>#}
+{#  {{ str|escape }}#}
+{#   {% autoescape off %}#}
+{#      {{ str }}#}
+{#    {% endautoescape %}#}
+
+<h3>原数据：{{ date }}</h3>
+{#<h3>{{ date|default:str }}</h3>#}
+<h3>{{ date|date:'Y-m-d H:i:s a' }}</h3>
+
+
+{#  <ul>#}
+{#      {% for user in users %}#}
+{#         <li>{{ user.id }} {{ user.name }}</li>#}
+{#      {% endfor %}#}
+{#  </ul>#}
+{#  <table border="1" property="0">#}
+{#      <thead>#}
+{#          <th>ID</th>#}
+{#          <th>账号</th>#}
+{#          <th>真实姓名</th>#}
+{#          <th>手机号</th>#}
+{#      </thead>#}
+{#      <tbody>#}
+{#          {% for user in users %}#}
+{#              <tr>#}
+{#                   <td>{{ user.id }}</td>#}
+{#                   <td>{{ user.name }}</td>#}
+{#                   <td>{{ user.realprofile.real_name }}</td>#}
+{#                   <td>{{ user.phone }}</td>#}
+{#              </tr>#}
+{#              {% empty %}#}
+{#                    <p>暂无数据</p>#}
+{#          {% endfor %}#}
+{#      </tbody>#}
+{#  </table>#}
+
+{% include 'base_js.html' %}
+</body>
+</html>

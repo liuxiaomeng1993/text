@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>收藏夹</title>
+    {% include 'base_css.html' %}
+    <link rel="stylesheet" href="/static/css/shoucang.css">
+</head>
+<body>
+<h3>{{ msg|safe }}</h3>
+<div class="container">
+     <div class="r2 row">
+
+            {% for i in user %}
+                <div class="c11">
+                <img class="i" src="/static/{{ i.goods_id.name_photo }}">
+                <p class="p1">￥{{ i.goods_id.price }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销量：</p>
+                <p class="p2">{{ i.goods_id.name }}</p>
+                    <div class="a21">
+                        <span class="sp1">产地：{{ i.goods_id.source }}</span>
+                        <button class="bt">删除</button>
+
+                    </div>
+                </div>
+            {% endfor %}
+
+  </div>
+</div>
+
+ {% include 'base_js.html' %}
+<script>
+function f(cls) {
+    return document.getElementsByClassName(cls)
+}
+var bt = f('bt')
+var p2 = f('p2')
+$('.c11').one('mouseover', function () {
+    var index = $(this).index()
+
+    $(bt[index]).on('click', function () {
+        var name1 = $(bt[index]).html()
+        var name2 = $(p2[index]).html()
+        var data ={
+            name: [
+                name1, name2
+            ]
+        }
+        fetch('http://127.0.0.1:8000/order/shoucang', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(resp=>resp.text())
+            .then(text=>{
+                var data = JSON.parse(text)
+                    alert(data.data)
+                    window.location.reload()
+            })
+    })
+})
+</script>
+</body>
+</html>

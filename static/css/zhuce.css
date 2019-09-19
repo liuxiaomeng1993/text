@@ -1,0 +1,16 @@
+.r1 {
+    width: 400px;
+    height: 600px;
+
+    margin-left: 330px;
+    margin-top: 50px;
+}
+.r1 input{
+    margin-top: 40px;
+    margin-left: 50px;
+    width: 300px;
+}
+.r1 button{
+    margin-top: 50px;
+    margin-left: 160px;
+}
